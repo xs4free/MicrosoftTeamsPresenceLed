@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Portrait_Placeholder.png" />
+    <None Remove="Assets\Settings.png" />
+    <None Remove="Assets\SignIn.png" />
+    <None Remove="Assets\SignOut.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Portrait_Placeholder.png" />
+    <Resource Include="Assets\Settings.png" />
+    <Resource Include="Assets\SignIn.png" />
+    <Resource Include="Assets\SignOut.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0-preview.5.20278.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0-preview.5.20278.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0-preview.5.20278.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0-preview.5.20278.1" />
+    <PackageReference Include="Microsoft.Graph.Auth" Version="1.0.0-preview.5" />
+    <PackageReference Include="Microsoft.Graph.Beta" Version="0.18.0-preview" />
+    <PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="2.11.0-preview" />
+    <PackageReference Include="MQTTnet" Version="3.0.11" />
+  </ItemGroup>
+
+</Project>

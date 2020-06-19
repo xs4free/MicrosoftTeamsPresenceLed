@@ -1,0 +1,312 @@
+﻿<UserControl
+    x:Class="TeamsPresencePublisher.Controls.UserPresenceControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TeamsPresencePublisher.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:converters="clr-namespace:TeamsPresencePublisher.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="100"
+    d:DesignWidth="100">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+        <converters:PresenceToVisiblityConverter x:Key="presenceToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Viewbox Stretch="Uniform">
+        <!--ToolTipService.ToolTip="{Binding GetToolTip(LastUpdate, Availability, Activity), Mode=OneWay}"-->
+        <Canvas Width="100" Height="100" >
+            <Ellipse Width="100" Height="100" Canvas.Top="0" Canvas.Left="0">
+                <Ellipse.Fill>                    
+                    <ImageBrush ImageSource="{Binding ProfileImage, Mode=OneWay}"/>
+                </Ellipse.Fill>
+            </Ellipse>
+
+
+            <!-- https://docs.microsoft.com/en-us/microsoftteams/presence-admins -->
+            <!-- https://docs.microsoft.com/en-us/graph/api/resources/presence?view=graph-rest-beta -->
+            <!-- 
+            possible values for availability are: *Available, *AvailableIdle, *Away, *BeRightBack, *Busy, *BusyIdle, *DoNotDisturb, *Offline, *PresenceUnknown
+            possible values for activity are: *Available, *Away, *BeRightBack, *Busy, *DoNotDisturb, *InACall, *InAConferenceCall, *Inactive, *InAMeeting, *Offline, *OffWork, *OutOfOffice, *PresenceUnknown, *Presenting, *UrgentInterruptionsOnly
+            -->
+
+            <Canvas>
+                <Canvas.Visibility>
+                    <MultiBinding Converter="{StaticResource presenceToVisibilityConverter}">
+                        <Binding Path="Availability" />
+                        <Binding Source="Available|AvailableIdle" />
+                        <Binding Path="Activity" />
+                        <Binding Source="Available" />
+                        <Binding Path="RefreshingPresence" />
+                    </MultiBinding>
+                </Canvas.Visibility>
+                <Ellipse Width="20" Height="20" Canvas.Top="75" Canvas.Left="75" Stroke="Green" Fill="Green"/>
+                <Polyline Stroke="White" StrokeThickness="2" Points="82,84 85,88 90,80" />
+            </Canvas>
+
+            <Canvas>
+                <Canvas.Visibility>
+                    <MultiBinding Converter="{StaticResource presenceToVisibilityConverter}">
+                        <Binding Path="Availability" />
+                        <Binding Source="Available|AvailableIdle" />
+                        <Binding Path="Activity" />
+                        <Binding Source="OutOfOffice" />
+                        <Binding Path="RefreshingPresence" />
+                    </MultiBinding>
+                </Canvas.Visibility>
+                <Ellipse Width="20" Height="20" Canvas.Top="75" Canvas.Left="75" Stroke="Green" Fill="White"/>  
+                <Polyline Stroke="Green" StrokeThickness="2" Points="82,84 85,88 90,80" />
+            </Canvas>
+
+            <Canvas>
+                <Canvas.Visibility>
+                    <MultiBinding Converter="{StaticResource presenceToVisibilityConverter}">
+                        <Binding Path="Availability" />
+                        <Binding Source="Busy|BusyIdle" />
+                        <Binding Path="Activity" />
+                        <Binding Source="Busy|InACall|InAConferenceCall|InAMeeting" />
+                        <Binding Path="RefreshingPresence" />
+                    </MultiBinding>
+                </Canvas.Visibility>
+                <Ellipse Width="20" Height="20" Canvas.Top="75" Canvas.Left="75" Stroke="Red" Fill="Red"/>
+            </Canvas>
+
+            <Canvas>
+                <Canvas.Visibility>
+                    <MultiBinding Converter="{StaticResource presenceToVisibilityConverter}">
+                        <Binding Path="Availability" />
+                        <Binding Source="Busy|BusyIdle" />
+                        <Binding Path="Activity" />
+                        <Binding Source="OutOfOffice" />
+                        <Binding Path="RefreshingPresence" />
+                    </MultiBinding>
+                </Canvas.Visibility>
+                <Ellipse Width="20" Height="20" Canvas.Top="75" Canvas.Left="75" Stroke="Red" Fill="White"/>
+            </Canvas>
+
+            <Canvas>
+                <Canvas.Visibility>
+                    <MultiBinding Converter="{StaticResource presenceToVisibilityConverter}">
+                        <Binding Path="Availability" />
+                        <Binding Source="DoNotDisturb" />
+                        <Binding Path="Activity" />
+                        <Binding Source="DoNotDisturb|Presenting|UrgentInterruptionsOnly" />
+                        <Binding Path="RefreshingPresence" />
+                    </MultiBinding>
+                </Canvas.Visibility>
+                <Ellipse Width="20" Height="20" Canvas.Top="75" Canvas.Left="75" Stroke="Red" Fill="Red"/>
+                <Polyline Stroke="White" StrokeThickness="2" Points="80,85 90,85" />
+            </Canvas>
+
+            <Canvas>
+                <Canvas.Visibility>
+                    <MultiBinding Converter="{StaticResource presenceToVisibilityConverter}">
+                        <Binding Path="Availability" />
+                        <Binding Source="Away|BeRightBack" />
+                        <Binding Path="Activity" />
+                        <Binding Source="Away|BeRightBack|Inactive|OffWork" />
+                        <Binding Path="RefreshingPresence" />
+                    </MultiBinding>
+                </Canvas.Visibility>
+                <Ellipse Width="20" Height="20" Canvas.Top="75" Canvas.Left="75" Stroke="Orange" Fill="Orange"/>
+                <Polyline Stroke="White" StrokeThickness="2" Points="85,80 85,85 89,89" />
+            </Canvas>
+
+            <Canvas>
+                <Canvas.Visibility>
+                    <MultiBinding Converter="{StaticResource presenceToVisibilityConverter}">
+                        <Binding Path="Availability" />
+                        <Binding Source="Offline" />
+                        <Binding Path="Activity" />
+                        <Binding Source="Offline" />
+                        <Binding Path="RefreshingPresence" />
+                    </MultiBinding>
+                </Canvas.Visibility>
+                <Ellipse Width="20" Height="20" Canvas.Top="75" Canvas.Left="75" Stroke="Gray" Fill="White"/>
+                <Polyline Stroke="Gray" StrokeThickness="2" Points="80,80 90,90" />
+                <Polyline Stroke="Gray" StrokeThickness="2" Points="80,90 90,80" />
+            </Canvas>
+
+            <Canvas>
+                <Canvas.Visibility>
+                    <MultiBinding Converter="{StaticResource presenceToVisibilityConverter}">
+                        <Binding Path="Availability" />
+                        <Binding Source="PresenceUnknown" />
+                        <Binding Path="Activity" />
+                        <Binding Source="PresenceUnknown" />
+                        <Binding Path="RefreshingPresence" />
+                    </MultiBinding>
+                </Canvas.Visibility>
+                <Ellipse Width="20" Height="20" Canvas.Top="75" Canvas.Left="75" Stroke="Gray" Fill="White"/>
+            </Canvas>
+
+            <!--blocked-->
+            <!--<Ellipse Width="20" Height="20" Canvas.Top="75" Canvas.Left="75" Stroke="Red" Fill="White"/>
+                <Polyline Stroke="Red" StrokeThickness="2" Points="79,90 91,80" />-->
+
+            <Canvas>
+                <Canvas.Visibility>
+                    <MultiBinding Converter="{StaticResource presenceToVisibilityConverter}">
+                        <Binding Path="Availability" />
+                        <Binding Source="" />
+                        <Binding Path="Activity" />
+                        <Binding Source="OutOfOffice" />
+                        <Binding Path="RefreshingPresence" />
+                    </MultiBinding>
+                </Canvas.Visibility>
+                <Ellipse Width="20" Height="20" Canvas.Top="75" Canvas.Left="75" Stroke="Purple" Fill="White"/>
+                <Polyline Stroke="Purple" StrokeThickness="2" Points="90,85 80,85" />
+                <Polyline Stroke="Purple" StrokeThickness="2" Points="79,86 84,81" />
+                <Polyline Stroke="Purple" StrokeThickness="2" Points="79,85 84,89" />
+            </Canvas>
+
+            <Canvas Visibility="{Binding Path=RefreshingPresence, Mode=OneWay, Converter={StaticResource boolToVisibilityConverter}}">
+                <Ellipse Width="20" Height="20" Canvas.Top="75" Canvas.Left="75" Stroke="Gray" Fill="White"/>
+
+                <!-- https://stackoverflow.com/questions/22486987/how-to-create-a-progress-ring-like-windows-8-style-in-wpf -->
+                <Viewbox Width="20" Height="20" Canvas.Top="75" Canvas.Left="75">
+                    <Canvas Width="50" Height="50"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
+                        <Path Data="M50,27.5 C50,24.23333 45,24.23333 45,27.5 C45,30.83333 50,30.83333 50,27.5"
+                              Fill="#FF2D3FFF"
+                              RenderTransformOrigin="0.5,0.83333">
+                            <Path.RenderTransform >
+                                <RotateTransform x:Name="_rot1" Angle="0"/>
+                            </Path.RenderTransform>
+                            <Path.Triggers>
+                                <EventTrigger RoutedEvent="Path.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="_rot1"
+                                                               Storyboard.TargetProperty="Angle"
+                                                               RepeatBehavior="Forever">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="360"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0">
+                                                    <EasingDoubleKeyFrame.EasingFunction>
+                                                        <PowerEase Power="1.3" EasingMode="EaseInOut"/>
+                                                    </EasingDoubleKeyFrame.EasingFunction>
+                                                </EasingDoubleKeyFrame>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="0"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Path.Triggers>
+                        </Path>
+                        <Path Data="M50,27.5 C50,24.23333 45,24.23333 45,27.5 C45,30.83333 50,30.83333 50,27.5"
+                              Fill="#DD2D3FFF"
+                              RenderTransformOrigin="0.5,0.83333">
+                            <Path.RenderTransform>
+                                <RotateTransform x:Name="_rot2" Angle="13"/>
+                            </Path.RenderTransform>
+                            <Path.Triggers>
+                                <EventTrigger RoutedEvent="Path.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="_rot2"
+                                                               Storyboard.TargetProperty="Angle"
+                                                               RepeatBehavior="Forever">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="13"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="13"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:2.2" Value="-347">
+                                                    <EasingDoubleKeyFrame.EasingFunction>
+                                                        <PowerEase Power="1.3" EasingMode="EaseInOut"/>
+                                                    </EasingDoubleKeyFrame.EasingFunction>
+                                                </EasingDoubleKeyFrame>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="-347"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Path.Triggers>
+                        </Path>
+                        <Path Data="M50,27.5 C50,24.23333 45,24.23333 45,27.5 C45,30.83333 50,30.83333 50,27.5"
+                              Fill="#BB2D3FFF"
+                              RenderTransformOrigin="0.5,0.83333">
+                            <Path.RenderTransform>
+                                <RotateTransform x:Name="_rot3" Angle="26"/>
+                            </Path.RenderTransform>
+                            <Path.Triggers>
+                                <EventTrigger RoutedEvent="Path.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="_rot3"
+                                                               Storyboard.TargetProperty="Angle"
+                                                               RepeatBehavior="Forever">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="26"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="26"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:2.4" Value="-334">
+                                                    <EasingDoubleKeyFrame.EasingFunction>
+                                                        <PowerEase Power="1.3" EasingMode="EaseInOut"/>
+                                                    </EasingDoubleKeyFrame.EasingFunction>
+                                                </EasingDoubleKeyFrame>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="-334"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Path.Triggers>
+                        </Path>
+
+                        <Path Data="M50,27.5 C50,24.23333 45,24.23333 45,27.5 C45,30.83333 50,30.83333 50,27.5"
+                              Fill="#992D3FFF"
+                              RenderTransformOrigin="0.5,0.83333">
+                            <Path.RenderTransform>
+                                <RotateTransform x:Name="_rot4" Angle="39"/>
+                            </Path.RenderTransform>
+                            <Path.Triggers>
+                                <EventTrigger RoutedEvent="Path.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="_rot4"
+                                                               Storyboard.TargetProperty="Angle"
+                                                               RepeatBehavior="Forever">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="39"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="39"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:2.6" Value="-321">
+                                                    <EasingDoubleKeyFrame.EasingFunction>
+                                                        <PowerEase Power="1.3" EasingMode="EaseInOut"/>
+                                                    </EasingDoubleKeyFrame.EasingFunction>
+                                                </EasingDoubleKeyFrame>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="-321"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Path.Triggers>
+                        </Path>
+                        <Path Data="M50,27.5 C50,24.23333 45,24.23333 45,27.5 C45,30.83333 50,30.83333 50,27.5"
+                              Fill="#772D3FFF"
+                              RenderTransformOrigin="0.5,0.83333">
+                            <Path.RenderTransform>
+                                <RotateTransform x:Name="_rot5" Angle="52"/>
+                            </Path.RenderTransform>
+                            <Path.Triggers>
+                                <EventTrigger RoutedEvent="Path.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="_rot5"
+                                                               Storyboard.TargetProperty="Angle"
+                                                               RepeatBehavior="Forever">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="52"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="52"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:2.8" Value="-308">
+                                                    <EasingDoubleKeyFrame.EasingFunction>
+                                                        <PowerEase Power="1.3" EasingMode="EaseInOut"/>
+                                                    </EasingDoubleKeyFrame.EasingFunction>
+                                                </EasingDoubleKeyFrame>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="-308"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Path.Triggers>
+                        </Path>
+                    </Canvas>
+                </Viewbox>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+</UserControl>

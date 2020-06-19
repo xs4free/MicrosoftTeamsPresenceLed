@@ -1,0 +1,131 @@
+﻿<Window x:Class="TeamsPresencePublisher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TeamsPresencePublisher"
+        xmlns:controls="clr-namespace:TeamsPresencePublisher.Controls" 
+        xmlns:converters="clr-namespace:TeamsPresencePublisher.Converters"
+        mc:Ignorable="d"
+        Title="MainWindow" 
+        Height="450" 
+        Width="800">
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed" />
+        <converters:BoolToVisibilityConverter x:Key="InvertedBoolToVisibilityConverter" TrueValue="Collapsed" FalseValue="Visible" />
+        <converters:UriToStringConverter x:Key="uriToStringConverter" />
+    </Window.Resources>
+    
+    <DockPanel LastChildFill="True">
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Left">
+            <Expander IsEnabled="True" ExpandDirection="Right">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MinWidth="50"/>
+                        <ColumnDefinition MinWidth="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="25" />
+                        <RowDefinition MinHeight="25" />
+                        <RowDefinition MinHeight="25" />
+                        <RowDefinition MinHeight="25" />
+                        <RowDefinition MinHeight="25" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Publish to MQTT"  IsChecked="{Binding Path=MQTTOptions.Enabled, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0">Host</TextBlock>
+                    <TextBox Grid.Row="1" Grid.Column="1" ToolTip="http://localhost" Text="{Binding Path=MQTTOptions.Host, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0">Port</TextBlock>
+                    <TextBox Grid.Row="2" Grid.Column="1" ToolTip="1883" Text="{Binding Path=MQTTOptions.Port, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0">Username</TextBlock>
+                    <TextBox Grid.Row="3" Grid.Column="1" ToolTip="" Text="{Binding Path=MQTTOptions.Username, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="4" Grid.Column="0">Password</TextBlock>
+                    <TextBox Grid.Row="4" Grid.Column="1" ToolTip="" Text="{Binding Path=MQTTOptions.Password, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="5" Grid.Column="0">Topic</TextBlock>
+                    <TextBox Grid.Row="5" Grid.Column="1" ToolTip="microsoft/graph/me/presence" Text="{Binding Path=MQTTOptions.Topic, Mode=TwoWay}" />
+                </Grid>
+            </Expander>
+            <Expander ExpandDirection="Right" Style="{StaticResource ArrowlessExpanderTemplate}">
+                <Expander.Header>
+                    <Image Width="25" Source="assets\Settings.png"/>
+                </Expander.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MinWidth="50"/>
+                        <ColumnDefinition MinWidth="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="25" />
+                        <RowDefinition MinHeight="25" />
+                        <RowDefinition MinHeight="25" />
+                        <RowDefinition MinHeight="25" />
+                        <RowDefinition MinHeight="25" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Publish to ESPHome API" IsChecked="{Binding Path=ESPHomeAPIOptions.Enabled, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0">ESPHome device URL</TextBlock>
+                    <TextBox Grid.Row="1" Grid.Column="1" ToolTip="http://status_light.local" Text="{Binding ESPHomeAPIOptions.BaseUri, Converter={StaticResource uriToStringConverter}, Mode=TwoWay }" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0">ESPHome light id</TextBlock>
+                    <TextBox Grid.Row="2" Grid.Column="1" ToolTip="xringname" Text="{Binding Path=ESPHomeAPIOptions.LightId, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0">ESPHome brightness:</TextBlock>
+                    <TextBox Grid.Row="3" Grid.Column="1" ToolTip="64" Text="{Binding Path=ESPHomeAPIOptions.Brightness, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="4" Grid.Column="0">ESPHome transition:</TextBlock>
+                    <TextBox Grid.Row="4" Grid.Column="1" ToolTip="1" Text="{Binding Path=ESPHomeAPIOptions.Transition, Mode=TwoWay}" />
+                </Grid>
+            </Expander>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DockPanel.Dock="Bottom">
+            <Button Click="ButtonSignin_Click" Background="Transparent" BorderBrush="Transparent" Visibility="{Binding IsSignedIn, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="25">
+                        <Image.Source>
+                            <BitmapImage UriSource="/Assets/SignIn.png" />
+                        </Image.Source>
+                    </Image>
+                    <TextBlock VerticalAlignment="Center" Margin="10,0,0,0">Sign in</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Click="ButtonSignout_Click" Background="Transparent" BorderBrush="Transparent" Visibility="{Binding IsSignedIn, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="25">
+                        <Image.Source>
+                            <BitmapImage UriSource="/Assets/SignOut.png" />
+                        </Image.Source>
+                    </Image>
+                    <TextBlock VerticalAlignment="Center" Margin="10,0,0,0">Sign out</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Background="Transparent" BorderBrush="Transparent">
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="25">
+                        <Image.Source>
+                            <BitmapImage UriSource="/Assets/Settings.png" />
+                        </Image.Source>
+                    </Image>
+                    <TextBlock VerticalAlignment="Center" Margin="10,0,0,0">Settings</TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <TextBlock HorizontalAlignment="Center" Text="{Binding UserName, Mode=OneWay}" Margin="0,5,0,10" DockPanel.Dock="Bottom" />
+
+        <controls:UserPresenceControl 
+            Availability="{Binding Availability, Mode=OneWay}" 
+            Activity="{Binding Activity, Mode=OneWay}" 
+            Refreshing="{Binding RefreshingPresence, Mode=OneWay}"
+            LastUpdate="{Binding LastUpdate, Mode=OneWay}"
+            ProfileImage="{Binding ProfileImage, Mode=OneWay}"
+            Margin="0,10,0,0"
+            />
+    </DockPanel>
+</Window>
