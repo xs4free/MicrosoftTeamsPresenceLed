@@ -1,7 +1,8 @@
-[![Animated Teams presence Led](https://github.com/xs4free/TeamsPresenceLed/blob/master/animated-microsoft-teams-presence-led.gif?raw=true)](https://github.com/xs4free/TeamsPresenceLed)
+[![Animated Microsoft Teams presence Led](https://github.com/xs4free/MicrosoftTeamsPresenceLed/blob/master/animated-microsoft-teams-presence-led.gif?raw=true)](https://github.com/xs4free/MicrosoftTeamsPresenceLed)
 
 # Microsoft Teams presence Led
 > DoItYourself led that follows your Microsoft Teams status
+
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
 ## Making the led
