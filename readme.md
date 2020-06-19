@@ -1,4 +1,4 @@
-[![Animated Microsoft Teams presence Led](https://github.com/xs4free/MicrosoftTeamsPresenceLed/blob/master/animated-microsoft-teams-presence-led.gif?raw=true)](https://github.com/xs4free/MicrosoftTeamsPresenceLed)
+[![Animated Microsoft Teams presence Led](https://github.com/xs4free/MicrosoftTeamsPresenceLed/blob/master/img/animated-microsoft-teams-presence-led.gif)](https://github.com/xs4free/MicrosoftTeamsPresenceLed)
 
 # Microsoft Teams presence Led
 > DoItYourself led that follows your Microsoft Teams status
