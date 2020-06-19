@@ -17,4 +17,5 @@
 ### Configuring the software
 
 ## Credits
+- This source is my rewrite of [PresenceLight](https://github.com/isaacrlevin/PresenceLight) by [Isaac Levin](https://github.com/isaacrlevin)
 - [Greasemann](https://commons.wikimedia.org/wiki/File:Portrait_Placeholder.png) for the unknown user icon (under the [Creative Commons Attribution-Share Alike 4.0 International license](https://creativecommons.org/licenses/by-sa/4.0/deed.en))
