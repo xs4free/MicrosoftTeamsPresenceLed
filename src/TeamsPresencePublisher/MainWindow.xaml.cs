@@ -98,6 +98,8 @@ namespace TeamsPresencePublisher
             else
             {
                 _timer.Stop();
+
+                _presenceViewModel.UserName = null;
                 _presenceViewModel.ProfileImage = _presenceService.GetDefaultPhoto();
             }
         }
