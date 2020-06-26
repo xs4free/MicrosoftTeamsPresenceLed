@@ -36,6 +36,12 @@ namespace TeamsPresencePublisher.Services
             //return (User: user, Presence: presence);
         }
 
+        public async Task<string> GetUsernameAsync()
+        {
+            User user = await _graphClient.Me.Request().GetAsync();
+            return user.PreferredName ?? user.DisplayName;
+        }
+
         public BitmapImage GetDefaultPhoto()
         {
             Uri uri = new Uri("pack://application:,,,/TeamsPresencePublisher;component/Assets/Portrait_Placeholder.png");
