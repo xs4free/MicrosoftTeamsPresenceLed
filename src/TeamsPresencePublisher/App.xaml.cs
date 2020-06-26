@@ -4,6 +4,7 @@ using MQTTnet;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using TeamsPresencePublisher.Controls;
 using TeamsPresencePublisher.Models;
 using TeamsPresencePublisher.Options;
 using TeamsPresencePublisher.Publishers;
@@ -27,14 +28,15 @@ namespace TeamsPresencePublisher
         {
             base.OnStartup(e);
 
-            MainWindow mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
-            mainWindow.Show();
+            TraybarIcon traybarIcon = _serviceProvider.GetRequiredService<TraybarIcon>();
+            traybarIcon.Show();
         }
 
         private void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
 
+            services.AddSingleton<TraybarIcon>();
             services.AddSingleton<MainWindow>();
             services.AddSingleton<IMqttFactory, MqttFactory>();
             services.AddSingleton<PresenceViewModel>();
