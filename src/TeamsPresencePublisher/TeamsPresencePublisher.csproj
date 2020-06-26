@@ -26,7 +26,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0-preview.5.20278.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0-preview.5.20278.1" />
     <PackageReference Include="Microsoft.Graph.Auth" Version="1.0.0-preview.5" />
-    <PackageReference Include="Microsoft.Graph.Beta" Version="0.18.0-preview" />
+    <PackageReference Include="Microsoft.Graph.Beta" Version="0.19.0-preview" />
     <PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="2.11.0-preview" />
     <PackageReference Include="MQTTnet" Version="3.0.11" />
   </ItemGroup>
