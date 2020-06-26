@@ -2,6 +2,8 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TeamsPresencePublisher.Controls;
+using TeamsPresencePublisher.Converters;
 using TeamsPresencePublisher.Options;
 
 namespace TeamsPresencePublisher.Publishers
@@ -27,7 +29,7 @@ namespace TeamsPresencePublisher.Publishers
 
                 await _httpClient.PostAsync(uri, null);
             }
-            catch(Exception ex)
+            catch (Exception)
             {
                 // todo: add logging
             }
@@ -65,26 +67,14 @@ namespace TeamsPresencePublisher.Publishers
             //        return (0, 0, 0, 0);
             //}
 
-            switch (presence.Activity)
+            switch(ActivityToActivityColorConverter.Convert(presence.Activity))
             {
-                case "Available":
-                case "Busy":
-                case "Inactive":
-                case "UrgentInterruptionsOnly":
+                case ActivityColor.Green:
                     return (0, 63, 21, _options.Brightness);
-                case "Away":
-                case "BeRightBack":
+                case ActivityColor.Yellow:
                     return (255, 255, 0, _options.Brightness);
-                case "InACall":
-                case "InAConferenceCall":
-                case "InAMeeting":
-                case "Presenting":
-                case "DoNotDisturb":
+                case ActivityColor.Red:
                     return (128, 0, 0, _options.Brightness);
-                case "PresenceUnknown":
-                case "Offline":
-                case "OffWork":
-                case "OutOfOffice":
                 default:
                     return (0, 0, 0, 0);
             }

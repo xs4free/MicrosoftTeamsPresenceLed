@@ -47,6 +47,14 @@ namespace TeamsPresencePublisher
             Loaded += MainPage_Loaded;
         }
 
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Hide();
+
+            e.Cancel = true;
+            base.OnClosing(e);
+        }
+
         private void Options_Changed(object sender, PropertyChangedEventArgs e)
         {
             _optionsService.SaveSettingsAsync(sender);

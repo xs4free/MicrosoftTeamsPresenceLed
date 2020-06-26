@@ -4,20 +4,19 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Assets\Portrait_Placeholder.png" />
-    <None Remove="Assets\Settings.png" />
-    <None Remove="Assets\SignIn.png" />
-    <None Remove="Assets\SignOut.png" />
-  </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\Portrait_Placeholder.png" />
     <Resource Include="Assets\Settings.png" />
     <Resource Include="Assets\SignIn.png" />
     <Resource Include="Assets\SignOut.png" />
+    <Resource Include="Assets\TraybarIcon-green.ico" />
+    <Resource Include="Assets\TraybarIcon-red.ico" />
+    <Resource Include="Assets\TraybarIcon-yellow.ico" />
+    <Resource Include="Assets\TraybarIcon.ico" />
+    <Resource Include="Assets\TraybarIcon.png" />
   </ItemGroup>
 
   <ItemGroup>

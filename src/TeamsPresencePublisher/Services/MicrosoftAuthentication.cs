@@ -45,7 +45,7 @@ namespace TeamsPresencePublisher.Services
 
                 result = true;
             }
-            catch(MsalServiceException) // access_denied when user cancels login
+            catch (MsalServiceException) // access_denied when user cancels login
             {
             }
 
