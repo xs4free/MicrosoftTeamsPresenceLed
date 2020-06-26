@@ -100,7 +100,7 @@ namespace TeamsPresencePublisher
             {
                 _timer.Start();
 
-                _presenceViewModel.UserName = await _microsoftAuthentication.GetUserNameAsync();
+                _presenceViewModel.UserName = await _presenceService.GetUsernameAsync();
                 _presenceViewModel.ProfileImage = await _presenceService.GetPhotoAsync();
             }
             else

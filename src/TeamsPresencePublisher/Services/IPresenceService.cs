@@ -7,6 +7,7 @@ namespace TeamsPresencePublisher.Services
     public interface IPresenceService
     {
         Task<Presence> GetPresenceAsync();
+        Task<string> GetUsernameAsync();
         BitmapImage GetDefaultPhoto();
         Task<BitmapImage> GetPhotoAsync();
     }

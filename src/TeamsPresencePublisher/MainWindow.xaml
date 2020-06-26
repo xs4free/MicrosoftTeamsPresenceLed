@@ -6,7 +6,8 @@
         xmlns:controls="clr-namespace:TeamsPresencePublisher.Controls" 
         xmlns:converters="clr-namespace:TeamsPresencePublisher.Converters" 
         mc:Ignorable="d"
-        Title="MainWindow" 
+        Title="Teams Presence Publisher" 
+        Icon="Assets/TraybarIcon.png"
         Height="450" 
         Width="800">
     <Window.Resources>
@@ -17,71 +18,72 @@
     
     <DockPanel LastChildFill="True">
         <StackPanel Orientation="Vertical" DockPanel.Dock="Left">
-            <Expander IsEnabled="True" ExpandDirection="Right">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="50"/>
-                        <ColumnDefinition MinWidth="50"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="25" />
-                        <RowDefinition MinHeight="25" />
-                        <RowDefinition MinHeight="25" />
-                        <RowDefinition MinHeight="25" />
-                        <RowDefinition MinHeight="25" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Publish to MQTT"  IsChecked="{Binding Path=MQTTOptions.Enabled, Mode=TwoWay}" />
-
-                    <TextBlock Grid.Row="1" Grid.Column="0">Host</TextBlock>
-                    <TextBox Grid.Row="1" Grid.Column="1" ToolTip="http://localhost" Text="{Binding Path=MQTTOptions.Host, Mode=TwoWay}" />
-
-                    <TextBlock Grid.Row="2" Grid.Column="0">Port</TextBlock>
-                    <TextBox Grid.Row="2" Grid.Column="1" ToolTip="1883" Text="{Binding Path=MQTTOptions.Port, Mode=TwoWay}" />
-
-                    <TextBlock Grid.Row="3" Grid.Column="0">Username</TextBlock>
-                    <TextBox Grid.Row="3" Grid.Column="1" ToolTip="" Text="{Binding Path=MQTTOptions.Username, Mode=TwoWay}" />
-
-                    <TextBlock Grid.Row="4" Grid.Column="0">Password</TextBlock>
-                    <TextBox Grid.Row="4" Grid.Column="1" ToolTip="" Text="{Binding Path=MQTTOptions.Password, Mode=TwoWay}" />
-
-                    <TextBlock Grid.Row="5" Grid.Column="0">Topic</TextBlock>
-                    <TextBox Grid.Row="5" Grid.Column="1" ToolTip="microsoft/graph/me/presence" Text="{Binding Path=MQTTOptions.Topic, Mode=TwoWay}" />
-                </Grid>
-            </Expander>
             <Expander ExpandDirection="Right" Style="{StaticResource ArrowlessExpanderTemplate}">
                 <Expander.Header>
                     <Image Width="25" Source="assets\Settings.png"/>
                 </Expander.Header>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="50"/>
-                        <ColumnDefinition MinWidth="50"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="25" />
-                        <RowDefinition MinHeight="25" />
-                        <RowDefinition MinHeight="25" />
-                        <RowDefinition MinHeight="25" />
-                        <RowDefinition MinHeight="25" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                <StackPanel Orientation="Vertical">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="50"/>
+                            <ColumnDefinition MinWidth="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="25" />
+                            <RowDefinition MinHeight="25" />
+                            <RowDefinition MinHeight="25" />
+                            <RowDefinition MinHeight="25" />
+                            <RowDefinition MinHeight="25" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Publish to ESPHome API" IsChecked="{Binding Path=ESPHomeAPIOptions.Enabled, Mode=TwoWay}" />
+                        <CheckBox Grid.Row="0" Grid.Column="0" Content="Publish to MQTT"  IsChecked="{Binding Path=MQTTOptions.Enabled, Mode=TwoWay}" />
 
-                    <TextBlock Grid.Row="1" Grid.Column="0">ESPHome device URL</TextBlock>
-                    <TextBox Grid.Row="1" Grid.Column="1" ToolTip="http://status_light.local" Text="{Binding ESPHomeAPIOptions.BaseUri, Converter={StaticResource uriToStringConverter}, Mode=TwoWay }" />
+                        <TextBlock Grid.Row="1" Grid.Column="0">Host</TextBlock>
+                        <TextBox Grid.Row="1" Grid.Column="1" ToolTip="http://localhost" Text="{Binding Path=MQTTOptions.Host, Mode=TwoWay}" />
 
-                    <TextBlock Grid.Row="2" Grid.Column="0">ESPHome light id</TextBlock>
-                    <TextBox Grid.Row="2" Grid.Column="1" ToolTip="xringname" Text="{Binding Path=ESPHomeAPIOptions.LightId, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="2" Grid.Column="0">Port</TextBlock>
+                        <TextBox Grid.Row="2" Grid.Column="1" ToolTip="1883" Text="{Binding Path=MQTTOptions.Port, Mode=TwoWay}" />
 
-                    <TextBlock Grid.Row="3" Grid.Column="0">ESPHome brightness:</TextBlock>
-                    <TextBox Grid.Row="3" Grid.Column="1" ToolTip="64" Text="{Binding Path=ESPHomeAPIOptions.Brightness, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="3" Grid.Column="0">Username</TextBlock>
+                        <TextBox Grid.Row="3" Grid.Column="1" ToolTip="" Text="{Binding Path=MQTTOptions.Username, Mode=TwoWay}" />
 
-                    <TextBlock Grid.Row="4" Grid.Column="0">ESPHome transition:</TextBlock>
-                    <TextBox Grid.Row="4" Grid.Column="1" ToolTip="1" Text="{Binding Path=ESPHomeAPIOptions.Transition, Mode=TwoWay}" />
-                </Grid>
+                        <TextBlock Grid.Row="4" Grid.Column="0">Password</TextBlock>
+                        <TextBox Grid.Row="4" Grid.Column="1" ToolTip="" Text="{Binding Path=MQTTOptions.Password, Mode=TwoWay}" />
+
+                        <TextBlock Grid.Row="5" Grid.Column="0">Topic</TextBlock>
+                        <TextBox Grid.Row="5" Grid.Column="1" ToolTip="microsoft/graph/me/presence" Text="{Binding Path=MQTTOptions.Topic, Mode=TwoWay}" />
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="50"/>
+                            <ColumnDefinition MinWidth="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="25" />
+                            <RowDefinition MinHeight="25" />
+                            <RowDefinition MinHeight="25" />
+                            <RowDefinition MinHeight="25" />
+                            <RowDefinition MinHeight="25" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <CheckBox Grid.Row="0" Grid.Column="0" Content="Publish to ESPHome API" IsChecked="{Binding Path=ESPHomeAPIOptions.Enabled, Mode=TwoWay}" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0">ESPHome device URL</TextBlock>
+                        <TextBox Grid.Row="1" Grid.Column="1" ToolTip="http://status_light.local" Text="{Binding ESPHomeAPIOptions.BaseUri, Converter={StaticResource uriToStringConverter}, Mode=TwoWay }" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0">ESPHome light id</TextBlock>
+                        <TextBox Grid.Row="2" Grid.Column="1" ToolTip="xringname" Text="{Binding Path=ESPHomeAPIOptions.LightId, Mode=TwoWay}" />
+
+                        <TextBlock Grid.Row="3" Grid.Column="0">ESPHome brightness:</TextBlock>
+                        <TextBox Grid.Row="3" Grid.Column="1" ToolTip="64" Text="{Binding Path=ESPHomeAPIOptions.Brightness, Mode=TwoWay}" />
+
+                        <TextBlock Grid.Row="4" Grid.Column="0">ESPHome transition:</TextBlock>
+                        <TextBox Grid.Row="4" Grid.Column="1" ToolTip="1" Text="{Binding Path=ESPHomeAPIOptions.Transition, Mode=TwoWay}" />
+                    </Grid>
+                </StackPanel>
             </Expander>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DockPanel.Dock="Bottom">
