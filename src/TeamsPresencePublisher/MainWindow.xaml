@@ -20,7 +20,7 @@
         <StackPanel Orientation="Vertical" DockPanel.Dock="Left">
             <Expander ExpandDirection="Right" Style="{StaticResource ArrowlessExpanderTemplate}">
                 <Expander.Header>
-                    <Image Width="25" Source="assets\Settings.png"/>
+                    <Image Width="25" Source="assets\Settings.png" ToolTip="Settings" />
                 </Expander.Header>
                 <StackPanel Orientation="Vertical">
                     <Grid>
@@ -105,16 +105,6 @@
                         </Image.Source>
                     </Image>
                     <TextBlock VerticalAlignment="Center" Margin="10,0,0,0">Sign out</TextBlock>
-                </StackPanel>
-            </Button>
-            <Button Background="Transparent" BorderBrush="Transparent">
-                <StackPanel Orientation="Horizontal">
-                    <Image Height="25">
-                        <Image.Source>
-                            <BitmapImage UriSource="/Assets/Settings.png" />
-                        </Image.Source>
-                    </Image>
-                    <TextBlock VerticalAlignment="Center" Margin="10,0,0,0">Settings</TextBlock>
                 </StackPanel>
             </Button>
         </StackPanel>
