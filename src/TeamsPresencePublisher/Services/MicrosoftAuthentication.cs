@@ -11,11 +11,9 @@ namespace TeamsPresencePublisher.Services
 {
     public class MicrosoftAuthentication : IMicrosoftAuthentication
     {
-        private const string ClientId = "f8119f58-4523-44c1-ab72-b2e0c815bd6a"; // PresenceLight
-        /*private const string ClientId = "3baaf745-161e-447d-98a2-9f7274bd757a";*/ // DeviceCodeFlowConsole-sample2 -> verify Publisher domain, misschien werkt hij dan wel?!
-        //private const string ClientId = "12a0fda7-afa5-41b8-924a-755501d2761d"; // DeviceCodeFlowConsole-sample
-
+        private const string ClientId = "7cb6e9cb-6042-49d7-b60c-fbcf1c669599"; // Teams presence publisher
         private const string Authority = "https://login.microsoftonline.com/common/";
+        private const string RedirectUri = "http://localhost";
         private static readonly string[] s_scopes = new string[] { "User.Read", "Presence.Read" };
         private readonly MsalCacheHelper _msalCacheHelper;
         private IPublicClientApplication _publicClientApplication;
@@ -24,7 +22,7 @@ namespace TeamsPresencePublisher.Services
 
         public MicrosoftAuthentication(TeamsPresencePublisherOptions options)
         {
-            var storageProperties =
+            StorageCreationProperties storageProperties =
                 new StorageCreationPropertiesBuilder("TeamsPresencePublisher.msalcache.bin", options.CacheFolder, ClientId)
                 .Build();
 
@@ -40,7 +38,7 @@ namespace TeamsPresencePublisher.Services
 
             try
             {
-                var builder = _publicClientApplication.AcquireTokenInteractive(s_scopes);
+                AcquireTokenInteractiveParameterBuilder builder = _publicClientApplication.AcquireTokenInteractive(s_scopes);
                 await builder.ExecuteAsync();
 
                 result = true;
@@ -74,11 +72,10 @@ namespace TeamsPresencePublisher.Services
 
         private IPublicClientApplication BuildPublicClientApplication()
         {
-            var application = PublicClientApplicationBuilder
+            IPublicClientApplication application = PublicClientApplicationBuilder
                     .Create(ClientId)
                     .WithAuthority(Authority)
-                    //.WithDefaultRedirectUri()
-                    .WithRedirectUri("http://localhost")
+                    .WithRedirectUri(RedirectUri)
                     .Build();
 
             _msalCacheHelper.RegisterCache(application.UserTokenCache);
