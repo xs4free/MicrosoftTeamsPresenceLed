@@ -4,6 +4,8 @@ using System.IO;
 using TeamsPresencePublisher.Models;
 using System.Drawing;
 using TeamsPresencePublisher.Converters;
+using System.Windows.Media.Imaging;
+using System.Collections.Generic;
 
 namespace TeamsPresencePublisher.Controls
 {
@@ -14,10 +16,7 @@ namespace TeamsPresencePublisher.Controls
         private readonly MainWindow _mainWindow;
         private readonly PresenceViewModel _presenceViewModel;
 
-        private Icon _whiteIcon;
-        private Icon _greenIcon;
-        private Icon _yellowIcon;
-        private Icon _redIcon;
+        private Dictionary<IconEnum, Tuple<Icon, BitmapFrame>> _icons = new Dictionary<IconEnum, Tuple<Icon, BitmapFrame>>();
 
         public TraybarIcon(MainWindow mainWindow, PresenceViewModel presenceViewModel)
         {
@@ -39,12 +38,10 @@ namespace TeamsPresencePublisher.Controls
 
         private void InitializeNotifyIcon()
         {
-            _whiteIcon = LoadIcon("TraybarIcon.ico");
-            _greenIcon = LoadIcon("TraybarIcon-green.ico");
-            _yellowIcon = LoadIcon("TraybarIcon-yellow.ico");
-            _redIcon = LoadIcon("TraybarIcon-red.ico");
-
-            _notifyIcon.Icon = _whiteIcon;
+            LoadIcon(IconEnum.White, "TraybarIcon.ico");
+            LoadIcon(IconEnum.Green, "TraybarIcon-green.ico");
+            LoadIcon(IconEnum.Yellow, "TraybarIcon-yellow.ico");
+            LoadIcon(IconEnum.Red, "TraybarIcon-red.ico");
 
             ToolStripItem itemShow = _contextMenuStrip.Items.Add("Show");
             itemShow.Click += ItemShow_Click;
@@ -56,33 +53,48 @@ namespace TeamsPresencePublisher.Controls
             _notifyIcon.Text = "Teams Presence Publisher";
 
             _notifyIcon.DoubleClick += ItemShow_Click;
+
+            SetColor(ActivityColor.Default);
         }
 
         public void SetColor(ActivityColor color)
         {
+            IconEnum icon;
+
             switch (color)
             {
                 case ActivityColor.Green:
-                    _notifyIcon.Icon = _greenIcon;
+                    icon = IconEnum.Green;
                     break;
                 case ActivityColor.Yellow:
-                    _notifyIcon.Icon = _yellowIcon;
+                    icon = IconEnum.Yellow;
                     break;
                 case ActivityColor.Red:
-                    _notifyIcon.Icon =
-                        _redIcon; break;
+                    icon = IconEnum.Red;
+                    break;
                 case ActivityColor.Default:
                 default:
-                    _notifyIcon.Icon = _whiteIcon;
+                    icon = IconEnum.White;
                     break;
             }
+
+            _notifyIcon.Icon = GetIcon(icon);
+            _mainWindow.Icon = GetBitmap(icon);
         }
 
-        private Icon LoadIcon(string assetsName)
+        private Icon GetIcon(IconEnum icon) => _icons[icon].Item1;
+        private BitmapFrame GetBitmap(IconEnum icon) => _icons[icon].Item2;
+
+        private void LoadIcon(IconEnum ico, string assetsName)
         {
-            Uri uri = new Uri($"pack://application:,,,/TeamsPresencePublisher;component/Assets/{assetsName}");
-            using Stream iconStream = System.Windows.Application.GetResourceStream(uri).Stream;
-            return new Icon(iconStream);
+            Uri iconUri = new Uri($"pack://application:,,,/TeamsPresencePublisher;component/Assets/{assetsName}");
+
+            using Stream iconStream = System.Windows.Application.GetResourceStream(iconUri).Stream;
+            Icon icon = new Icon(iconStream);
+
+            BitmapFrame bitmap = BitmapFrame.Create(iconUri);
+
+            _icons.Add(ico, new Tuple<Icon, BitmapFrame>(icon, bitmap));
         }
 
         public void Show()
